@@ -22,9 +22,11 @@ namespace SkillTree.UI
             base.OnInitialize();
             var width = 900f;
             var height = 700f;
-            skillPanel = new SkillPanel();
-            skillPanel.HAlign = 0.5f;
-            skillPanel.VAlign = 0.5f;
+            skillPanel = new SkillPanel
+            {
+                HAlign = 0.5f,
+                VAlign = 0.5f
+            };
             skillPanel.Width.Set(width, 0f);
             skillPanel.Height.Set(height, 0f);
 

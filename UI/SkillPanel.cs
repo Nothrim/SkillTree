@@ -36,7 +36,6 @@ namespace SkillTree.UI
 			base.MouseDown(evt);
 			DragStart(evt);
 			this.BackgroundColor = SKILL_FRAME_CLICKED_COLOR;
-			Main.NewText("clicked");
 		}
 
 		public override void MouseUp(UIMouseEvent evt)

@@ -38,12 +38,28 @@ namespace SkillTree.UI
                     "Skill Tree: useSkillAndStuff",
                     delegate
                     {
+                        if (!skillTreeUI.isVisible()) { return false; }
                         skillTreeInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)
                 );
             }
+        }
+
+        public void showSkillTreeUI()
+        {
+            skillTreeUI.show();
+        }
+
+        public void hideSkillTreeUI()
+        {
+            skillTreeUI.hide();
+        }
+
+        public bool isVisible()
+        {
+            return skillTreeUI.isVisible();
         }
     }
 }
