@@ -23,9 +23,9 @@ namespace SkillTree.UI
 
         public  void updateUI(GameTime gameTime)
         { 
-            if (skillTreeUI != null && skillTreeUI.isVisible())
+            if (skillTreeUI != null && skillTreeUI.isVisible() && !Main.gameMenu)
             {
-                skillTreeUI?.Update(gameTime);
+                skillTreeInterface.Update(gameTime);
             }
         }
 
@@ -38,7 +38,7 @@ namespace SkillTree.UI
                     "Skill Tree: useSkillAndStuff",
                     delegate
                     {
-                        if (!skillTreeUI.isVisible()) { return false; }
+                        if (!skillTreeUI.isVisible() || Main.gameMenu) { return true; }
                         skillTreeInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },

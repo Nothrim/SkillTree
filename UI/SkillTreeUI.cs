@@ -38,7 +38,6 @@ namespace SkillTree.UI
            
         }
 
-
         public void show()
         {
             visible = true;
