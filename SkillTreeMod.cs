@@ -48,6 +48,7 @@ namespace SkillTree
         {
             base.UpdateUI(gameTime);
             gui.updateUI(gameTime);
+            this.Logger
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
