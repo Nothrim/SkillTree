@@ -11,7 +11,6 @@ namespace SkillTree.Core
     public class SkillDefinitionLoader
     {
         public static class Names {
-            public static readonly string MIGHT = "might";
             public static readonly string LAYERED_ARMOR = "layeredArmor";
             public static readonly string BLOCK = "block";
         }
@@ -19,6 +18,8 @@ namespace SkillTree.Core
         public static class Ways
         {
             public static readonly string MIGHT = "might";
+            public static readonly string MAGIC_ELEMENT = "magicElement";
+            public static readonly string MARKSMANSHIP = "marksmanship";
         }
         private readonly Dictionary<String, Skill> skillDefinitions = new Dictionary<string, Skill>();
 
@@ -27,6 +28,8 @@ namespace SkillTree.Core
             var might = loadMight();
             var layeredArmor = loadLayeredArmor(new List<Skill> { might });
             var block = loadBlock(new List<Skill> { layeredArmor });
+            var magicElement = loadMagicElement();
+            var marksmanship = loadMarksmanship();
         }
 
         public Way getWay(String name)
@@ -50,7 +53,7 @@ namespace SkillTree.Core
 
         private Way loadMight()
         {
-           string skillName = Names.MIGHT;
+           string skillName = Ways.MIGHT;
            Way skill = new Way(
            name: skillName
            , displayName: "Might"
@@ -61,6 +64,36 @@ namespace SkillTree.Core
            skillDefinitions[skillName] = skill;
            
            return skill;
+        }
+
+        private Way loadMagicElement()
+        {
+            string skillName = Ways.MAGIC_ELEMENT;
+            Way skill = new Way(
+            name: skillName
+            , displayName: "MagicElement"
+            , iconPath: "Textures/Icons/MagicElement"
+            , tooltip: "Grants various attributes required for beginer mages"
+            , level: 0
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+        private Way loadMarksmanship()
+        {
+            string skillName = Ways.MAGIC_ELEMENT;
+            Way skill = new Way(
+            name: skillName
+            , displayName: "Marksmanship"
+            , iconPath: "Textures/Icons/Marksmanship"
+            , tooltip: "+1 penetration on all projectiles"
+            , level: 0
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
         }
 
         private Skill loadLayeredArmor(List<Skill> requiredSkills)

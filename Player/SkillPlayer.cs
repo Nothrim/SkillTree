@@ -12,9 +12,9 @@ using Terraria.ModLoader;
 
 namespace SkillTree.Player
 {
-    class SkillPlayer : ModPlayer
+    public class SkillPlayer : ModPlayer
     {
-        private List<string> ownedSkills = new List<string> { SkillDefinitionLoader.Names.BLOCK, SkillDefinitionLoader.Names.MIGHT, SkillDefinitionLoader.Names.LAYERED_ARMOR };
+        private List<string> ownedSkills = new List<string> { SkillDefinitionLoader.Names.BLOCK, SkillDefinitionLoader.Names.LAYERED_ARMOR };
         private Way currentWay;
         private SkillDefinitionLoader skillDefinitionLoader;
         private PlayerGUI gui;

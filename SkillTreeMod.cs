@@ -21,9 +21,10 @@ namespace SkillTree
         public override void Load()
         {
             base.Load();
-            this.gui = new PlayerGUI();
+
             this.hotkeyConfiguration = new HotkeyConfiguration(this);
             this.skillDefinitionLoader = new SkillDefinitionLoader();
+            this.gui = new PlayerGUI(this.skillDefinitionLoader);
             this.skillDefinitionLoader.loadSkills();
             if (!Main.dedServ)
             {
@@ -52,7 +53,7 @@ namespace SkillTree
             gui.modifyInterfaceLayers(layers);
         }
 
-        public void toggleUI()
+        public void toggleUI(SkillPlayer player)
         {
             if (gui.isVisible())
             {
@@ -60,14 +61,8 @@ namespace SkillTree
             }
             else
             {
-                gui.showSkillTreeUI();
+                gui.showSkillTreeUI(player);
             }
         }
-
-        public void showUI()
-        {
-            gui.showSkillTreeUI();
-        }
-
     }
 }

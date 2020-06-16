@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using SkillTree.Core;
+using SkillTree.Player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,13 @@ namespace SkillTree.UI
     {
         private SkillTreeUI skillTreeUI;
         private UserInterface skillTreeInterface;
+        private SkillDefinitionLoader skillDefinitionLoader;
+        private SkillPlayer player;
 
+        public PlayerGUI(SkillDefinitionLoader skillDefinitionLoader)
+        {
+            this.skillDefinitionLoader = skillDefinitionLoader;
+        }
         public void buildUI()
         {
             skillTreeUI = new SkillTreeUI();
@@ -22,8 +30,9 @@ namespace SkillTree.UI
         }
 
         public  void updateUI(GameTime gameTime)
-        { 
-            if (skillTreeUI != null && skillTreeUI.isVisible() && !Main.gameMenu)
+        {
+
+            if (skillTreeUI != null && skillTreeUI.isVisible() && !Main.gameMenu && player != null)
             {
                 skillTreeInterface.Update(gameTime);
             }
@@ -38,7 +47,7 @@ namespace SkillTree.UI
                     "Skill Tree: useSkillAndStuff",
                     delegate
                     {
-                        if (!skillTreeUI.isVisible() || Main.gameMenu) { return true; }
+                        if (!skillTreeUI.isVisible() || Main.gameMenu || player == null) { return true; }
                         skillTreeInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
@@ -47,8 +56,9 @@ namespace SkillTree.UI
             }
         }
 
-        public void showSkillTreeUI()
+        public void showSkillTreeUI(SkillPlayer player)
         {
+            this.player = player;
             skillTreeUI.show();
         }
 
