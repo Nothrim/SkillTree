@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace SkillTree.UI
 {
-    class PlayerGUI
+    public class PlayerGUI
     {
         private SkillTreeUI skillTreeUI;
         private UserInterface skillTreeInterface;

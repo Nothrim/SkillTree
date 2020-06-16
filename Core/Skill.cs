@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillTree.Core
 {
-    class Skill
+    public class Skill
     {
         private readonly string name;
         private readonly string iconPath;
@@ -20,7 +20,7 @@ namespace SkillTree.Core
         private readonly int level;
         private readonly List<Skill> requirements;
 
-        public Skill(string name, string iconPath, string displayName, string tooltip, bool used = false,  int level, int chance = 0, int cost = 0, int cooldown = 0, List<Skill> requirements = null)
+        public Skill(string name, string iconPath, string displayName, string tooltip, int level, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0)
         {
             this.name = name;
             this.iconPath = iconPath;

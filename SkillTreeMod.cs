@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SkillTree.Controls;
+using SkillTree.Core;
+using SkillTree.Player;
 using SkillTree.UI;
 using System.Collections.Generic;
 using Terraria;
@@ -11,14 +13,9 @@ namespace SkillTree
 {
 	public class SkillTreeMod : Mod
 	{
-        private PlayerGUI gui;
+        public PlayerGUI gui { get; private set; }
         public HotkeyConfiguration hotkeyConfiguration { get; private set; }
-        private static SkillTreeMod instance;
-
-        public static SkillTreeMod GetInstance()
-        {
-            return instance;
-        }
+        public SkillDefinitionLoader skillDefinitionLoader { get; private set; }
 
      
         public override void Load()
@@ -26,7 +23,8 @@ namespace SkillTree
             base.Load();
             this.gui = new PlayerGUI();
             this.hotkeyConfiguration = new HotkeyConfiguration(this);
-            instance = this;
+            this.skillDefinitionLoader = new SkillDefinitionLoader();
+            this.skillDefinitionLoader.loadSkills();
             if (!Main.dedServ)
             {
                 loadOnClient();
@@ -36,7 +34,6 @@ namespace SkillTree
         public override void Unload()
         {
             base.Unload();
-            instance = null;
         }
 
         private void loadOnClient()
@@ -48,7 +45,6 @@ namespace SkillTree
         {
             base.UpdateUI(gameTime);
             gui.updateUI(gameTime);
-            this.Logger
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -72,5 +68,6 @@ namespace SkillTree
         {
             gui.showSkillTreeUI();
         }
+
     }
 }
