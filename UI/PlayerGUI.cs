@@ -14,9 +14,11 @@ namespace SkillTree.UI
     public class PlayerGUI
     {
         private SkillTreeUI skillTreeUI;
+        private ChoiceUI choiceUI;
         private UserInterface skillTreeInterface;
         private SkillDefinitionLoader skillDefinitionLoader;
         private SkillPlayer player;
+        private UIItem currentUI;
 
         public PlayerGUI(SkillDefinitionLoader skillDefinitionLoader)
         {
@@ -25,14 +27,16 @@ namespace SkillTree.UI
         public void buildUI()
         {
             skillTreeUI = new SkillTreeUI();
+            choiceUI = new ChoiceUI(skillDefinitionLoader.getAllWays());
             skillTreeInterface = new UserInterface();
             skillTreeInterface.SetState(skillTreeUI);
+            currentUI = skillTreeUI;
         }
 
         public  void updateUI(GameTime gameTime)
         {
 
-            if (skillTreeUI != null && skillTreeUI.isVisible() && !Main.gameMenu && player != null)
+            if (currentUI != null && currentUI.isVisible() && !Main.gameMenu && player != null)
             {
                 skillTreeInterface.Update(gameTime);
             }
@@ -47,7 +51,7 @@ namespace SkillTree.UI
                     "Skill Tree: useSkillAndStuff",
                     delegate
                     {
-                        if (!skillTreeUI.isVisible() || Main.gameMenu || player == null) { return true; }
+                        if (!currentUI.isVisible() || Main.gameMenu || player == null) { return true; }
                         skillTreeInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
@@ -59,17 +63,27 @@ namespace SkillTree.UI
         public void showSkillTreeUI(SkillPlayer player)
         {
             this.player = player;
-            skillTreeUI.show();
+            if (player.hasPickedWay())
+            {
+                currentUI = skillTreeUI;
+                skillTreeInterface.SetState(skillTreeUI);
+            }
+            else
+            {
+                currentUI = choiceUI;
+                skillTreeInterface.SetState(choiceUI);
+            }
+            currentUI.show();
         }
 
         public void hideSkillTreeUI()
         {
-            skillTreeUI.hide();
+            currentUI.hide();
         }
 
         public bool isVisible()
         {
-            return skillTreeUI.isVisible();
+            return currentUI.isVisible();
         }
     }
 }

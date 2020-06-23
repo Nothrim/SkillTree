@@ -9,16 +9,16 @@ namespace SkillTree.Core
 {
     public class Skill
     {
-        private readonly string name;
-        private readonly string iconPath;
-        private readonly string displayName;
-        private readonly string tooltip;
-        private readonly int cost;
-        private readonly int cooldown;
-        private bool used = false;
-        private readonly int chance;
-        private readonly int level;
-        private readonly List<Skill> requirements;
+        public readonly string name;
+        public readonly string iconPath;
+        public readonly string displayName;
+        public readonly string tooltip;
+        public readonly int cost;
+        public readonly int cooldown;
+        public bool used = false;
+        public readonly int chance;
+        public readonly int level;
+        public readonly List<Skill> requirements;
 
         public Skill(string name, string iconPath, string displayName, string tooltip, int level, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0)
         {
@@ -39,6 +39,11 @@ namespace SkillTree.Core
             {
                 this.requirements = requirements;
             }
+        }
+
+        public static Skill blankSkill()
+        {
+            return new Skill("", "", "", "", 0);
         }
     }
 }

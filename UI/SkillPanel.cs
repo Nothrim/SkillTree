@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SkillTree.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace SkillTree.UI
@@ -17,18 +19,25 @@ namespace SkillTree.UI
 		private static readonly float SKILL_FRAME_SIZE = 50f;
 		private static readonly Color SKILL_FRAME_COLOR = new Color(73, 93, 171);
 		private static readonly Color SKILL_FRAME_CLICKED_COLOR = new Color(150, 150, 93);
-		private string tooltip;
+		private Skill skill;
+		private Texture2D skillIcon;
 
-		public SkillPanel(string tooltip ="")
+		public SkillPanel(Skill skill)
         {
 			this.BackgroundColor = SKILL_FRAME_COLOR;
-			this.tooltip = tooltip;
+			this.skill = skill;
+			this.skillIcon = ModContent.GetTexture(skill.iconPath);
+        }
+
+		public SkillPanel()
+        {
+			this.skill = Skill.blankSkill();
         }
 
 
-		public static SkillPanel getSkillFrame()
+		public static SkillPanel getSkillFrame(Skill skill)
         {
-			var skillFrame = new SkillPanel("test tip");
+			var skillFrame = new SkillPanel(skill);
 			skillFrame.Width.Set(SKILL_FRAME_SIZE, 0);
 			skillFrame.Height.Set(SKILL_FRAME_SIZE, 0);
             skillFrame.OnClick += skillFrame.onSkillFrameClicked;
@@ -73,8 +82,12 @@ namespace SkillTree.UI
             base.DrawSelf(spriteBatch);
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = tooltip;
+				Main.hoverItemName = skill.tooltip;
 			}
+            if (skillIcon != null)
+            {
+				//spriteBatch.Draw(skillIcon,this.X);
+            }
 		}
 
     }

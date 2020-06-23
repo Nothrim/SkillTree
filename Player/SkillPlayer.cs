@@ -47,9 +47,14 @@ namespace SkillTree.Player
             switch (name)
             {
                 case HotkeyConfiguration.TOGGLE_UI:
-                    ModContent.GetInstance<SkillTreeMod>()?.toggleUI();
+                    ModContent.GetInstance<SkillTreeMod>()?.toggleUI(this);
                     break;
             }
+        }
+
+        public bool hasPickedWay()
+        {
+            return currentWay != null;
         }
     }
 }

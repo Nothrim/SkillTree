@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace SkillTree.UI
 {
-    class SkillTreeUI : UIState
+    class SkillTreeUI : UIState, UIItem
     {
         private static readonly Microsoft.Xna.Framework.Color BACKGROUD_PANEL_COLOR = new Microsoft.Xna.Framework.Color(73, 93, 171, 210);
         private SkillPanel skillPanel;
@@ -32,8 +32,6 @@ namespace SkillTree.UI
 
             skillPanel.BackgroundColor = BACKGROUD_PANEL_COLOR;
 
-            SkillPanel skillFrame = SkillPanel.getSkillFrame();
-            skillPanel.Append(skillFrame);
             Append(skillPanel);
         }
 
