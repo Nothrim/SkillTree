@@ -17,14 +17,12 @@ namespace SkillTree.Player
         private List<string> ownedSkills = new List<string> { SkillDefinitionLoader.Names.BLOCK, SkillDefinitionLoader.Names.LAYERED_ARMOR };
         private Way currentWay;
         private SkillDefinitionLoader skillDefinitionLoader;
-        private PlayerGUI gui;
 
 
         public override void OnEnterWorld(Terraria.Player player)
         {
             base.OnEnterWorld(player);
             var mod = ModContent.GetInstance<SkillTreeMod>();
-            this.gui = mod.gui;
             this.skillDefinitionLoader = mod.skillDefinitionLoader;
         }
   
@@ -55,6 +53,11 @@ namespace SkillTree.Player
         public bool hasPickedWay()
         {
             return currentWay != null;
+        }
+
+        public void pickWay(Way way)
+        {
+            this.currentWay = way;
         }
     }
 }

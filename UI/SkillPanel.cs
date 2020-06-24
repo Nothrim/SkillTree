@@ -19,52 +19,21 @@ namespace SkillTree.UI
 		private static readonly float SKILL_FRAME_SIZE = 50f;
 		private static readonly Color SKILL_FRAME_COLOR = new Color(73, 93, 171);
 		private static readonly Color SKILL_FRAME_CLICKED_COLOR = new Color(150, 150, 93);
-		private Skill skill;
-		private Texture2D skillIcon;
 
-		public SkillPanel(Skill skill)
-        {
-			this.BackgroundColor = SKILL_FRAME_COLOR;
-			this.skill = skill;
-			this.skillIcon = ModContent.GetTexture(skill.iconPath);
-        }
+
 
 		public SkillPanel()
         {
-			this.skill = Skill.blankSkill();
         }
 
 
-		public static SkillPanel getSkillFrame(Skill skill)
+		public static SkillPanel getSkillFrame()
         {
-			var skillFrame = new SkillPanel(skill);
+			var skillFrame = new SkillPanel();
 			skillFrame.Width.Set(SKILL_FRAME_SIZE, 0);
 			skillFrame.Height.Set(SKILL_FRAME_SIZE, 0);
-            skillFrame.OnClick += skillFrame.onSkillFrameClicked;
-			skillFrame.OnMouseOver += skillFrame.onMouseOver;
-			skillFrame.OnMouseOut += skillFrame.onMouseOut;
 			return skillFrame;
         }
-
-        private void onSkillFrameClicked(UIMouseEvent evt, UIElement listeningElement)
-        {
-			this.BackgroundColor = SKILL_FRAME_CLICKED_COLOR;
-        }
-
-		private void onMouseOver(UIMouseEvent evt, UIElement listeningElement)
-        {
-			this.BackgroundColor = SKILL_FRAME_CLICKED_COLOR;
-			this.Width.Set(SKILL_FRAME_SIZE + 10, 0);
-			this.Height.Set(SKILL_FRAME_SIZE + 10, 0);
-		}
-
-		private void onMouseOut(UIMouseEvent evt, UIElement listeningElement)
-        {
-			this.BackgroundColor = SKILL_FRAME_COLOR;
-			this.Width.Set(SKILL_FRAME_SIZE, 0);
-			this.Height.Set(SKILL_FRAME_SIZE, 0);
-		}
-
 
 		public override void Update(GameTime gameTime)
 		{
@@ -80,14 +49,6 @@ namespace SkillTree.UI
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             base.DrawSelf(spriteBatch);
-			if (IsMouseHovering)
-			{
-				Main.hoverItemName = skill.tooltip;
-			}
-            if (skillIcon != null)
-            {
-				//spriteBatch.Draw(skillIcon,this.X);
-            }
 		}
 
     }

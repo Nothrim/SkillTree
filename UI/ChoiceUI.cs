@@ -19,15 +19,17 @@ namespace SkillTree.UI
         private bool visible = false;
         private List<Way> choices;
         private static readonly int SKILL_FRAME_DISTANCE = 90;
+        private Action<Way> onWayPicked;
 
-        public ChoiceUI(List<Way> choices){
+        public ChoiceUI(List<Way> choices,Action<Way> onWayPicked){
             this.choices = choices;
+            this.onWayPicked = onWayPicked;
         }
 
         public override void OnInitialize()
         {
             base.OnInitialize();
-            var width = choices.Count * SKILL_FRAME_DISTANCE;
+            var width = choices.Count * SKILL_FRAME_DISTANCE + 2*SKILL_FRAME_DISTANCE;
             var height = 100;
             skillPanel = new SkillPanel
             {
@@ -38,14 +40,14 @@ namespace SkillTree.UI
             skillPanel.Height.Set(height, 0f);
 
             skillPanel.BackgroundColor = BACKGROUD_PANEL_COLOR;
-            List<SkillPanel> panels = choices
-                .Select(choice => SkillPanel.getSkillFrame(choice))
+            List<SkillButton> panels = choices
+                .Select(choice => SkillButton.getSkillButton(choice,skill => onWayPicked.Invoke(skill as Way)))
                 .ToList();
             foreach(int i in Enumerable.Range(0,panels.Count))
             {
                 var currentPanel = panels[i];
-                currentPanel.Left.Set(i * SKILL_FRAME_DISTANCE, 0f);
-                currentPanel.HAlign = 0.5f;
+                currentPanel.Left.Set((i+1) * SKILL_FRAME_DISTANCE, 0f);
+                currentPanel.VAlign = 0.5f;
                 skillPanel.Append(currentPanel);
 
             }

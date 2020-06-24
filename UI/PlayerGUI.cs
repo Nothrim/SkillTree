@@ -27,7 +27,10 @@ namespace SkillTree.UI
         public void buildUI()
         {
             skillTreeUI = new SkillTreeUI();
-            choiceUI = new ChoiceUI(skillDefinitionLoader.getAllWays());
+            choiceUI = new ChoiceUI(skillDefinitionLoader.getAllWays(),way => {
+                player.pickWay(way);
+                showSkillTreeUI(player);
+            });
             skillTreeInterface = new UserInterface();
             skillTreeInterface.SetState(skillTreeUI);
             currentUI = skillTreeUI;
@@ -63,6 +66,7 @@ namespace SkillTree.UI
         public void showSkillTreeUI(SkillPlayer player)
         {
             this.player = player;
+            currentUI.hide();
             if (player.hasPickedWay())
             {
                 currentUI = skillTreeUI;

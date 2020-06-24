@@ -57,7 +57,7 @@ namespace SkillTree.Core
            Way skill = new Way(
            name: skillName
            , displayName: "Might"
-           , iconPath: "Textures/Icons/Might!"
+           , iconPath: "SkillTree/Textures/Icons/Might!"
            , tooltip: "10% increased damage with melee hits"
            , level: 0
            );
@@ -72,7 +72,7 @@ namespace SkillTree.Core
             Way skill = new Way(
             name: skillName
             , displayName: "MagicElement"
-            , iconPath: "Textures/Icons/MagicElement"
+            , iconPath: "SkillTree/Textures/Icons/MagicElement"
             , tooltip: "Grants various attributes required for beginer mages"
             , level: 0
             );
@@ -87,7 +87,7 @@ namespace SkillTree.Core
             Way skill = new Way(
             name: skillName
             , displayName: "Marksmanship"
-            , iconPath: "Textures/Icons/Marksmanship"
+            , iconPath: "SkillTree/Textures/Icons/Marksmanship"
             , tooltip: "+1 penetration on all projectiles"
             , level: 0
             );
@@ -102,7 +102,7 @@ namespace SkillTree.Core
             Skill skill = new Skill(
              name: skillName
             , displayName: "Layered Armor"
-            , iconPath: "Textures/Icons/LayeredArmor"
+            , iconPath: "SkillTree/Textures/Icons/LayeredArmor"
             , tooltip: "Gain armor layers when not fighting I:(Always On)+5 Armor,II:+10 armor,III:+15 armor"
             , level: 0
             ,requirements: requiredSkills
@@ -118,7 +118,7 @@ namespace SkillTree.Core
             Skill skill = new Skill(
              name: skillName
             , displayName: "Block"
-            , iconPath: "Textures/Icons/Block"
+            , iconPath: "SkillTree/Textures/Icons/Block"
             , tooltip: "Block incoming damage [10% chance]"
             , level: 0
             , requirements: requiredSkills
