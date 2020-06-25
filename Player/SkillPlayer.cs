@@ -58,6 +58,9 @@ namespace SkillTree.Player
         public void pickWay(Way way)
         {
             this.currentWay = way;
+            var skillRoot = new SkillTreeBuilder(this.skillDefinitionLoader)
+                .getSkillTree(way);
+            Main.NewText(skillRoot.getSkill().name);
         }
     }
 }

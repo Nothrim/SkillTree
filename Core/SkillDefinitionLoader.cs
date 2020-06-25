@@ -51,6 +51,11 @@ namespace SkillTree.Core
                 .ToList();
         }
 
+        public List<Skill> getAll()
+        {
+            return skillDefinitions.Values.ToList();
+        }
+
         private Way loadMight()
         {
            string skillName = Ways.MIGHT;
