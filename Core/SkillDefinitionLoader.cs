@@ -109,7 +109,7 @@ namespace SkillTree.Core
             , displayName: "Layered Armor"
             , iconPath: "SkillTree/Textures/Icons/LayeredArmor"
             , tooltip: "Gain armor layers when not fighting I:(Always On)+5 Armor,II:+10 armor,III:+15 armor"
-            , level: 0
+            , level: 1
             ,requirements: requiredSkills
             );
             skillDefinitions[skillName] = skill;
@@ -125,7 +125,7 @@ namespace SkillTree.Core
             , displayName: "Block"
             , iconPath: "SkillTree/Textures/Icons/Block"
             , tooltip: "Block incoming damage [10% chance]"
-            , level: 0
+            , level: 1
             , requirements: requiredSkills
             );
             skillDefinitions[skillName] = skill;

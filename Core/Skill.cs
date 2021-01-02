@@ -20,8 +20,9 @@ namespace SkillTree.Core
         public readonly int level;
         public readonly List<Skill> requirements;
 
-        public Skill(string name, string iconPath, string displayName, string tooltip, int level, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0)
+        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0)
         {
+            var requirementsList = requirements ?? new List<Skill>();
             this.name = name;
             this.iconPath = iconPath;
             this.displayName = displayName;
@@ -30,20 +31,29 @@ namespace SkillTree.Core
             this.cooldown = cooldown;
             this.used = used;
             this.chance = chance;
-            this.level = level;
-            if (requirements == null)
-            {
-                this.requirements = new List<Skill>();
-            }
-            else
-            {
-                this.requirements = requirements;
-            }
+            this.level = getLevel(level,requirements);
+            this.requirements = requirementsList;
+        }
+
+        private int getLevel(int? level, List<Skill> parents)
+        {
+            int outputLevel = level ?? getLevelFromParents(parents);
+            if (outputLevel == 0 && !(this.GetType() == typeof(Way))) throw new ArgumentException("Skill must be a Way to be attached at root level");
+            
+            return outputLevel;
+        }
+
+        private int getLevelFromParents(List<Skill> parents)
+        {
+            if (parents == null || parents.Count == 0) return 1;
+            return parents
+                .Select(skill => skill.level)
+                .Max() + 1;
         }
 
         public static Skill blankSkill()
         {
-            return new Skill("", "", "", "", 0);
+            return new Skill(name:"blank",iconPath:"", displayName:"Blank skill", tooltip:"Does nothing but you can click it!", level:1);
         }
     }
 }
