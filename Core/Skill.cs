@@ -31,7 +31,7 @@ namespace SkillTree.Core
             this.cooldown = cooldown;
             this.used = used;
             this.chance = chance;
-            this.level = getLevel(level,requirements);
+            this.level = getLevel(level, requirements);
             this.requirements = requirementsList;
         }
 
@@ -39,7 +39,7 @@ namespace SkillTree.Core
         {
             int outputLevel = level ?? getLevelFromParents(parents);
             if (outputLevel == 0 && !(this.GetType() == typeof(Way))) throw new ArgumentException("Skill must be a Way to be attached at root level");
-            
+
             return outputLevel;
         }
 
@@ -51,9 +51,9 @@ namespace SkillTree.Core
                 .Max() + 1;
         }
 
-        public static Skill blankSkill()
+        public static Skill blankSkill(List<Skill> requirements = null)
         {
-            return new Skill(name:"blank",iconPath:"", displayName:"Blank skill", tooltip:"Does nothing but you can click it!", level:1);
+            return new Skill(name: "blank", iconPath: "", displayName: "Blank skill", tooltip: "Does nothing but you can click it!", level: 1, requirements: requirements);
         }
     }
 }

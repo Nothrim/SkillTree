@@ -10,7 +10,8 @@ namespace SkillTree.Core
 {
     public class SkillDefinitionLoader
     {
-        public static class Names {
+        public static class Names
+        {
             public static readonly string LAYERED_ARMOR = "layeredArmor";
             public static readonly string BLOCK = "block";
         }
@@ -28,6 +29,9 @@ namespace SkillTree.Core
             var might = loadMight();
             var layeredArmor = loadLayeredArmor(new List<Skill> { might });
             var block = loadBlock(new List<Skill> { layeredArmor });
+            var blank1 = loadBlank("blank1", new List<Skill> { block, layeredArmor });
+            var blank2 = loadBlank("blank2", new List<Skill> { blank1 });
+            var blank3 = loadBlank("blank3", new List<Skill> { blank2 });
             var magicElement = loadMagicElement();
             var marksmanship = loadMarksmanship();
         }
@@ -45,10 +49,10 @@ namespace SkillTree.Core
 
         public List<Way> getAllWays()
         {
-           return  skillDefinitions.Values
-                .Where(skill => skill is Way)
-                .Select(skill=>(Way) skill)
-                .ToList();
+            return skillDefinitions.Values
+                 .Where(skill => skill is Way)
+                 .Select(skill => (Way)skill)
+                 .ToList();
         }
 
         public List<Skill> getAll()
@@ -58,17 +62,17 @@ namespace SkillTree.Core
 
         private Way loadMight()
         {
-           string skillName = Ways.MIGHT;
-           Way skill = new Way(
-           name: skillName
-           , displayName: "Might"
-           , iconPath: "SkillTree/Textures/Icons/Might!"
-           , tooltip: "10% increased damage with melee hits"
-           , level: 0
-           );
-           skillDefinitions[skillName] = skill;
-           
-           return skill;
+            string skillName = Ways.MIGHT;
+            Way skill = new Way(
+            name: skillName
+            , displayName: "Might"
+            , iconPath: "SkillTree/Textures/Icons/Might!"
+            , tooltip: "10% increased damage with melee hits"
+            , level: 0
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
         }
 
         private Way loadMagicElement()
@@ -110,7 +114,7 @@ namespace SkillTree.Core
             , iconPath: "SkillTree/Textures/Icons/LayeredArmor"
             , tooltip: "Gain armor layers when not fighting I:(Always On)+5 Armor,II:+10 armor,III:+15 armor"
             , level: 1
-            ,requirements: requiredSkills
+            , requirements: requiredSkills
             );
             skillDefinitions[skillName] = skill;
 
@@ -132,6 +136,14 @@ namespace SkillTree.Core
 
             return skill;
         }
+
+        private Skill loadBlank(string name, List<Skill> requiredSkils = null)
+        {
+            var skill = Skill.blankSkill(requiredSkils);
+            skillDefinitions[name] = skill;
+
+            return skill;
+        }
         public void fromJson(string name, string json)
         {
             Skill skill = JsonConvert.DeserializeObject<Skill>(json);
@@ -140,8 +152,5 @@ namespace SkillTree.Core
                 skillDefinitions[name] = skill;
             }
         }
-
-
-
     }
 }

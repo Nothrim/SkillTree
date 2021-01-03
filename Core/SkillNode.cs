@@ -9,21 +9,33 @@ namespace SkillTree.Core
     class SkillNode 
     {
         private readonly Skill value;
-        private readonly SkillNode parent;
+        private readonly List<SkillNode> parents;
+        private readonly SkillNode mainParent;
         private readonly List<SkillNode> children;
 
-        public SkillNode(Skill value, SkillNode parent, List<SkillNode> children =null )
+        public SkillNode(Skill value, SkillNode mainParent = null, List<SkillNode> children =null, List<SkillNode> parents=null)
         {
             this.value = value;
-            this.parent = parent;
-            this.children = children != null? children : new List<SkillNode>();
+            this.mainParent = mainParent;
+            this.children = children ?? new List<SkillNode>();
+            this.parents = parents ?? new List<SkillNode>();
         }
 
         public void addChild(SkillNode skillNode)
         {
-            children.Add(skillNode);
+            if (!children.Contains(skillNode))
+            {
+                children.Add(skillNode);
+            }
         }
 
+        public void addParent(SkillNode parent)
+        {
+            if (!parents.Contains(parent))
+            {
+                parents.Add(parent);
+            }
+        }
         public void addChildren(List<SkillNode> children)
         {
             this.children.AddRange(children);
@@ -38,9 +50,9 @@ namespace SkillTree.Core
             return children;
         }
 
-        public SkillNode getParent()
+        public SkillNode getMainParent()
         {
-            return parent;
+            return mainParent;
         }
     }
 }
