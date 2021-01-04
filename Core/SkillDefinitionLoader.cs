@@ -139,7 +139,7 @@ namespace SkillTree.Core
 
         private Skill loadBlank(string name, List<Skill> requiredSkils = null)
         {
-            var skill = Skill.blankSkill(requiredSkils);
+            var skill = Skill.blankSkill(name, requiredSkils);
             skillDefinitions[name] = skill;
 
             return skill;

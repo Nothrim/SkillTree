@@ -16,11 +16,10 @@ namespace SkillTree.UI
         public SkillTreeVisualiser(SkillNode root)
         {
             this.root = root;
+            build();
         }
-        void build(SkillNode root)
+        void build()
         {
-            this.root = root;
-            int level = 0;
             Queue<SkillNode> toVisit = new Queue<SkillNode>();
             toVisit.Enqueue(root);
             while (toVisit.Count > 0)
@@ -30,6 +29,9 @@ namespace SkillTree.UI
                 {
                     toVisit.Enqueue(child);
                 }
+                /*
+                 Solve case when child has multiple parents since basic algo just duplicates it
+                 */
                Main.NewText(node.getSkill().name);
             }
             

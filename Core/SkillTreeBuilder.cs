@@ -19,24 +19,23 @@ namespace SkillTree.Core
         public SkillNode getSkillTree(Way way)
         {
             buildSkillTree();
-            var root = new SkillNode(way);
-            skillNodes[way.name] = root;
 
-            return root;
+            return skillNodes[way.name];
         }
 
         private void buildSkillTree()
         {
             foreach (var skill in skillDefinitionLoader.getAll())
             {
-                var skillNode = skillNodes[skill.name] ?? new SkillNode(skill);
+                var skillNode = skillNodes.ContainsKey(skill.name) ? skillNodes[skill.name] : new SkillNode(skill);
                 skill.requirements.ForEach(requirement =>
                 {
-                    var requiredNode = skillNodes[requirement.name] ?? new SkillNode(requirement);
+                    var requiredNode = skillNodes.ContainsKey(requirement.name) ? skillNodes[requirement.name] : new SkillNode(requirement);
                     skillNode.addParent(requiredNode);
                     requiredNode.addChild(skillNode);
-                    skillNodes[requiredNode.getSkill().name] = requiredNode;
+                    skillNodes[requirement.name] = requiredNode;
                 });
+                skillNodes[skill.name] = skillNode;
             }
         }
     }

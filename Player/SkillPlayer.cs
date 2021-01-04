@@ -60,7 +60,9 @@ namespace SkillTree.Player
             this.currentWay = way;
             var skillRoot = new SkillTreeBuilder(this.skillDefinitionLoader)
                 .getSkillTree(way);
-            Main.NewText(skillRoot.getSkill().name);
+            new SkillTreeVisualiser(skillRoot);
+            Main.NewText("You chave choosen your way, you will be wielder of:");
+            Main.NewText(skillRoot.getSkill().displayName);
         }
     }
 }
