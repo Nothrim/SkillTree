@@ -22,6 +22,7 @@ namespace SkillTree.UI
         {
             Queue<SkillNode> toVisit = new Queue<SkillNode>();
             toVisit.Enqueue(root);
+            ISet<SkillNode> visited = new HashSet<SkillNode>();
             while (toVisit.Count > 0)
             {
                 var node = toVisit.Dequeue();
@@ -32,7 +33,10 @@ namespace SkillTree.UI
                 /*
                  Solve case when child has multiple parents since basic algo just duplicates it
                  */
-               Main.NewText(node.getSkill().name);
+                visited.Add(node);
+            }
+            foreach(SkillNode node in visited){
+                Main.NewText(node.getSkill().name);
             }
             
         }
