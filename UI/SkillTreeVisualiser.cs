@@ -12,8 +12,10 @@ namespace SkillTree.UI
     {
         private SkillNode root;
         private List<List<SkillNode>> skillsByLevel = new List<List<SkillNode>>();
+        private List<List<Tuple<SkillNode, SkillButton>>> nodesWithButtons = new List<List<Tuple<SkillNode, SkillButton>>> ();
+        private readonly Action<Skill> onSkillPicked;
 
-        public SkillTreeVisualiser(SkillNode root)
+        public SkillTreeVisualiser(SkillNode root, Action<Skill> onSkillPicked)
         {
             this.root = root;
             build();
@@ -21,13 +23,14 @@ namespace SkillTree.UI
 
         void build()
         {
-           splitByLevels();
-            
+            splitByLevels();
+            pairWithButtons();
+
         }
 
-        private void addSkill(SkillNode skill , int level)
+        private void addSkill(SkillNode skill, int level)
         {
-            while(skillsByLevel.Count < level)
+            while (skillsByLevel.Count <= level)
             {
                 skillsByLevel.Add(new List<SkillNode>());
             }
@@ -54,18 +57,19 @@ namespace SkillTree.UI
                 addSkill(node, node.getSkill().level);
             }
         }
-
-        private List<List<SkillNode>> assignPositions(List<List<SkillNode>> skills)
+        private void pairWithButtons()
         {
-            return null;
+            foreach(var level in skillsByLevel)
+            {
+
+                level
+                    .Select(skillNode => {
+                        var button = SkillButton.getSkillButton(skillNode.getSkill(), skill => { onSkillPicked.Invoke(skill); });
+                        return new Tuple<SkillNode, SkillButton>(skillNode, button);
+                    });
+            }
         }
-
-        private List<List<SkillNode>> swapPositionsToPreventOverlaping(List<List<SkillNode>> skills)
-        {
-            return null;
-        }
-
-
-
     }
+
+
 }
