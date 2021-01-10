@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace SkillTree.Core
         private readonly List<SkillNode> parents;
         private readonly SkillNode mainParent;
         private readonly List<SkillNode> children;
+        private Vector2 position { get; set; }
 
         public SkillNode(Skill value, SkillNode mainParent = null, List<SkillNode> children =null, List<SkillNode> parents=null)
         {

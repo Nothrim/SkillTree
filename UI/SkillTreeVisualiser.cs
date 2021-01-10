@@ -10,19 +10,37 @@ namespace SkillTree.UI
 {
     class SkillTreeVisualiser
     {
-        List<List<SkillNode>> levels = new List<List<SkillNode>>();
         private SkillNode root;
+        private List<List<SkillNode>> skillsByLevel = new List<List<SkillNode>>();
 
         public SkillTreeVisualiser(SkillNode root)
         {
             this.root = root;
             build();
         }
+
         void build()
+        {
+           splitByLevels();
+            
+        }
+
+        private void addSkill(SkillNode skill , int level)
+        {
+            while(skillsByLevel.Count < level)
+            {
+                skillsByLevel.Add(new List<SkillNode>());
+            }
+            if (!skillsByLevel[level].Contains(skill))
+            {
+                skillsByLevel[level].Add(skill);
+            }
+        }
+
+        private void splitByLevels()
         {
             Queue<SkillNode> toVisit = new Queue<SkillNode>();
             toVisit.Enqueue(root);
-            ISet<SkillNode> visited = new HashSet<SkillNode>();
             while (toVisit.Count > 0)
             {
                 var node = toVisit.Dequeue();
@@ -33,12 +51,18 @@ namespace SkillTree.UI
                 /*
                  Solve case when child has multiple parents since basic algo just duplicates it
                  */
-                visited.Add(node);
+                addSkill(node, node.getSkill().level);
             }
-            foreach(SkillNode node in visited){
-                Main.NewText(node.getSkill().name);
-            }
-            
+        }
+
+        private List<List<SkillNode>> assignPositions(List<List<SkillNode>> skills)
+        {
+            return null;
+        }
+
+        private List<List<SkillNode>> swapPositionsToPreventOverlaping(List<List<SkillNode>> skills)
+        {
+            return null;
         }
 
 
