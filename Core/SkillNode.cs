@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillTree.Core
 {
-    class SkillNode 
+    public class SkillNode 
     {
         private readonly Skill value;
         private readonly List<SkillNode> parents;

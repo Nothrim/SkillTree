@@ -12,17 +12,21 @@ namespace SkillTree.UI
     {
         private SkillNode root;
         private List<List<SkillNode>> skillsByLevel = new List<List<SkillNode>>();
-        private List<List<Tuple<SkillNode, SkillButton>>> nodesWithButtons = new List<List<Tuple<SkillNode, SkillButton>>> ();
-        private readonly Action<Skill> onSkillPicked;
+        private List<List<Tuple<SkillNode, SkillButton>>> nodesWithButtons = new List<List<Tuple<SkillNode, SkillButton>>>();
+        private Action<Skill> onSkillPicked;
 
-        public SkillTreeVisualiser(SkillNode root, Action<Skill> onSkillPicked)
+        public SkillTreeVisualiser(SkillNode root = null, Action<Skill> onSkillPicked=null)
         {
-            this.root = root;
-            build();
+            if (root != null)
+            {
+                build(root, onSkillPicked);
+            }
         }
 
-        void build()
+        public void build(SkillNode root = null, Action<Skill> onSkillPicked = null)
         {
+            this.root = root;
+            this.onSkillPicked = onSkillPicked;
             splitByLevels();
             pairWithButtons();
 
@@ -59,11 +63,12 @@ namespace SkillTree.UI
         }
         private void pairWithButtons()
         {
-            foreach(var level in skillsByLevel)
+            foreach (var level in skillsByLevel)
             {
 
                 level
-                    .Select(skillNode => {
+                    .Select(skillNode =>
+                    {
                         var button = SkillButton.getSkillButton(skillNode.getSkill(), skill => { onSkillPicked.Invoke(skill); });
                         return new Tuple<SkillNode, SkillButton>(skillNode, button);
                     });

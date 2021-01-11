@@ -1,4 +1,5 @@
 ﻿
+using SkillTree.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,13 @@ namespace SkillTree.UI
     {
         private static readonly Microsoft.Xna.Framework.Color BACKGROUD_PANEL_COLOR = new Microsoft.Xna.Framework.Color(73, 93, 171, 210);
         private SkillPanel skillPanel;
+        private SkillTreeVisualiser skillTree;
         private bool visible = false;
+
+        public void buildSkillTree(SkillNode way,Action<Skill> onSkillPicked)
+        {
+            skillTree = new SkillTreeVisualiser(way, onSkillPicked);
+        }
 
         public override void OnInitialize()
         {

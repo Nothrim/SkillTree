@@ -27,8 +27,13 @@ namespace SkillTree.UI
         public void buildUI()
         {
             skillTreeUI = new SkillTreeUI();
-            choiceUI = new ChoiceUI(skillDefinitionLoader.getAllWays(),way => {
+            choiceUI = new ChoiceUI(skillDefinitionLoader.getAllWays(), way =>
+            {
                 player.pickWay(way);
+                var skillRoot = new SkillTreeBuilder(this.skillDefinitionLoader).getSkillTree(way);
+                skillTreeUI.buildSkillTree(skillRoot, skill => { });
+                Main.NewText("You chave choosen your way, you will be wielder of:");
+                Main.NewText(skillRoot.getSkill().displayName);
                 showSkillTreeUI(player);
             });
             skillTreeInterface = new UserInterface();
@@ -36,7 +41,7 @@ namespace SkillTree.UI
             currentUI = skillTreeUI;
         }
 
-        public  void updateUI(GameTime gameTime)
+        public void updateUI(GameTime gameTime)
         {
 
             if (currentUI != null && currentUI.isVisible() && !Main.gameMenu && player != null)

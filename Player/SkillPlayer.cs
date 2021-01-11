@@ -16,14 +16,12 @@ namespace SkillTree.Player
     {
         private List<string> ownedSkills = new List<string> { SkillDefinitionLoader.Names.BLOCK, SkillDefinitionLoader.Names.LAYERED_ARMOR };
         private Way currentWay;
-        private SkillDefinitionLoader skillDefinitionLoader;
 
 
         public override void OnEnterWorld(Terraria.Player player)
         {
             base.OnEnterWorld(player);
             var mod = ModContent.GetInstance<SkillTreeMod>();
-            this.skillDefinitionLoader = mod.skillDefinitionLoader;
         }
   
 
@@ -58,11 +56,6 @@ namespace SkillTree.Player
         public void pickWay(Way way)
         {
             this.currentWay = way;
-            var skillRoot = new SkillTreeBuilder(this.skillDefinitionLoader)
-                .getSkillTree(way);
-            new SkillTreeVisualiser(skillRoot, skill=> { });
-            Main.NewText("You chave choosen your way, you will be wielder of:");
-            Main.NewText(skillRoot.getSkill().displayName);
         }
     }
 }
