@@ -29,6 +29,7 @@ namespace SkillTree.UI
             skillPanel.RemoveAllChildren();
             var tree = visualiser.getSkillTree();
             var allignBetweenLevels = 1.0f / tree.Count;
+            skillPanel.SetPadding(100f);
             for (int level = 0; level < tree.Count; level++)
             {
                 for(int i =0; i< tree[level].Count; i++)
@@ -37,8 +38,8 @@ namespace SkillTree.UI
                     var allignBetweenSkills = 1.0f / tree[level].Count;
                     var skill = tree[level][i];
                     var skillButton = skill.Item2;
-                    skillButton.HAlign = allignBetweenSkills * (i+1);
-                    skillButton.VAlign = allignBetweenLevels * (level + 1);
+                    skillButton.VAlign = allignBetweenSkills * (i+1);
+                    skillButton.HAlign = allignBetweenLevels * level;
                     skillPanel.Append(skillButton);
                 }
                 
