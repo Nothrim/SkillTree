@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Xna.Framework;
 using SkillTree.Core;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,38 @@ namespace SkillTree.UI
     {
         private static readonly Microsoft.Xna.Framework.Color BACKGROUD_PANEL_COLOR = new Microsoft.Xna.Framework.Color(73, 93, 171, 210);
         private SkillPanel skillPanel;
-        private SkillTreeVisualiser skillTree;
+        private SkillTreeVisualiser visualiser;
         private bool visible = false;
+        private readonly int SKILL_FRAME_DISTANCE = 80;
+        private readonly int SKILL_LEVEL_DISTANCE = 150;
+        private readonly int BORDER_DISTANCE = 100;
 
-        public void buildSkillTree(SkillNode way,Action<Skill> onSkillPicked)
+        public void buildSkillTree(SkillNode way, Action<Skill> onSkillPicked)
         {
-            skillTree = new SkillTreeVisualiser(way, onSkillPicked);
+            visualiser = new SkillTreeVisualiser(way, onSkillPicked);
+            skillPanel.RemoveAllChildren();
+            var tree = visualiser.getSkillTree();
+            var allignBetweenLevels = 1.0f / tree.Count;
+            for (int level = 0; level < tree.Count; level++)
+            {
+                for(int i =0; i< tree[level].Count; i++)
+                {
+
+                    var allignBetweenSkills = 1.0f / tree[level].Count;
+                    var skill = tree[level][i];
+                    var skillButton = skill.Item2;
+                    skillButton.HAlign = allignBetweenSkills * (i+1);
+                    skillButton.VAlign = allignBetweenLevels * (level + 1);
+                    skillPanel.Append(skillButton);
+                }
+                
+            }
+            skillPanel.RecalculateChildren();
+            Append(skillPanel);
+            this.RecalculateChildren();
+    
+
+
         }
 
         public override void OnInitialize()
@@ -56,7 +83,7 @@ namespace SkillTree.UI
         {
             return visible;
         }
-    
+
 
 
     }

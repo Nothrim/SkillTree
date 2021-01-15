@@ -35,6 +35,7 @@ namespace SkillTree.UI
 			skillButton.OnClick += skillButton.onSkillFrameClicked;
 			skillButton.OnMouseOver += skillButton.onMouseOver;
 			skillButton.OnMouseOut += skillButton.onMouseOut;
+
 			return skillButton;
         }
 

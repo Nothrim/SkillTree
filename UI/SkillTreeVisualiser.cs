@@ -23,6 +23,11 @@ namespace SkillTree.UI
             }
         }
 
+        public List<List<Tuple<SkillNode, SkillButton>>> getSkillTree()
+        {
+            return nodesWithButtons;
+        }
+
         public void build(SkillNode root = null, Action<Skill> onSkillPicked = null)
         {
             this.root = root;
@@ -66,12 +71,14 @@ namespace SkillTree.UI
             foreach (var level in skillsByLevel)
             {
 
-                level
+                var pairedLevel = level
                     .Select(skillNode =>
                     {
                         var button = SkillButton.getSkillButton(skillNode.getSkill(), skill => { onSkillPicked.Invoke(skill); });
                         return new Tuple<SkillNode, SkillButton>(skillNode, button);
-                    });
+                    })
+                    .ToList();
+                nodesWithButtons.Add(pairedLevel);
             }
         }
     }

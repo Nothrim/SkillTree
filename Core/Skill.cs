@@ -53,7 +53,7 @@ namespace SkillTree.Core
 
         public static Skill blankSkill(string name, List<Skill> requirements = null)
         {
-            return new Skill(name: name, iconPath: "", displayName: "Blank skill", tooltip: "Does nothing but you can click it!", level: 1, requirements: requirements);
+            return new Skill(name: name, iconPath: "SkillTree/Textures/UI/BlankFrame", displayName: "Blank skill", tooltip: "Does nothing but you can click it!", level: 1, requirements: requirements);
         }
     }
 }
