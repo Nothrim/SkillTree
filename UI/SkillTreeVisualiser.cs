@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 
+using SkillTreeVisualisation = System.Collections.Generic.List<System.Collections.Generic.List<System.Tuple<SkillTree.Core.SkillNode, SkillTree.UI.SkillButton>>>;
 namespace SkillTree.UI
 {
     class SkillTreeVisualiser
     {
         private SkillNode root;
         private List<List<SkillNode>> skillsByLevel = new List<List<SkillNode>>();
-        private List<List<Tuple<SkillNode, SkillButton>>> nodesWithButtons = new List<List<Tuple<SkillNode, SkillButton>>>();
+        private SkillTreeVisualisation nodesWithButtons = new SkillTreeVisualisation();
         private Action<Skill> onSkillPicked;
 
         public SkillTreeVisualiser(SkillNode root = null, Action<Skill> onSkillPicked=null)
@@ -23,7 +24,7 @@ namespace SkillTree.UI
             }
         }
 
-        public List<List<Tuple<SkillNode, SkillButton>>> getSkillTree()
+        public SkillTreeVisualisation getSkillTree()
         {
             return nodesWithButtons;
         }

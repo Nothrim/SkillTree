@@ -11,45 +11,66 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 
+using SkillTreeVisualisation = System.Collections.Generic.List<System.Collections.Generic.List<System.Tuple<SkillTree.Core.SkillNode, SkillTree.UI.SkillButton>>>;
 namespace SkillTree.UI
 {
     class SkillTreeUI : UIState, UIItem
     {
         private static readonly Microsoft.Xna.Framework.Color BACKGROUD_PANEL_COLOR = new Microsoft.Xna.Framework.Color(73, 93, 171, 210);
+        private static readonly float MAX_SKILL_PANEL_SPACING = 0.1f;
         private SkillPanel skillPanel;
         private SkillTreeVisualiser visualiser;
         private bool visible = false;
-        private readonly int SKILL_FRAME_DISTANCE = 80;
-        private readonly int SKILL_LEVEL_DISTANCE = 150;
-        private readonly int BORDER_DISTANCE = 100;
 
         public void buildSkillTree(SkillNode way, Action<Skill> onSkillPicked)
         {
             visualiser = new SkillTreeVisualiser(way, onSkillPicked);
             skillPanel.RemoveAllChildren();
-            var tree = visualiser.getSkillTree();
-            var allignBetweenLevels = 1.0f / tree.Count;
-            skillPanel.SetPadding(100f);
-            for (int level = 0; level < tree.Count; level++)
-            {
-                for(int i =0; i< tree[level].Count; i++)
-                {
-
-                    var allignBetweenSkills = 1.0f / tree[level].Count;
-                    var skill = tree[level][i];
-                    var skillButton = skill.Item2;
-                    skillButton.VAlign = allignBetweenSkills * (i+1);
-                    skillButton.HAlign = allignBetweenLevels * level;
-                    skillPanel.Append(skillButton);
-                }
-                
-            }
+            buildSkillTree();
             skillPanel.RecalculateChildren();
             Append(skillPanel);
             this.RecalculateChildren();
-    
+        }
+
+        private void buildSkillTree()
+        {
+            var tree = visualiser.getSkillTree();
+            var allignBetweenLevels = Math.Min(1.0f / tree.Count, MAX_SKILL_PANEL_SPACING);
 
 
+            for (int level = 0; level < tree.Count; level++)
+            {
+                if (tree[level].Count == 1)
+                {
+                    var skill = tree[level][0];
+                    var skillButton = skill.Item2;
+                    setUpSkillButton(skillButton,  0.5f, allignBetweenLevels * level);
+                }
+                else
+                {
+                    createPanelForLevels(tree, allignBetweenLevels, level);
+                }
+            }
+        }
+
+        private void createPanelForLevels(SkillTreeVisualisation tree, float allignBetweenLevels, int level)
+        {
+            for (int i = 0; i < tree[level].Count; i++)
+            {
+
+                var allignBetweenSkills = 1.0f / tree[level].Count;
+                var skill = tree[level][i];
+                var skillButton = skill.Item2;
+                setUpSkillButton(skillButton, allignBetweenSkills * (i+1), allignBetweenLevels * level);
+            }
+        }
+
+        private void setUpSkillButton(SkillButton skillButton, float vAlign, float hAlign)
+        {
+            skillButton.VAlign = vAlign;
+            skillButton.HAlign = hAlign;
+            Main.NewText("Moving skill into: v: "+ vAlign + " h: "+hAlign);
+            skillPanel.Append(skillButton);
         }
 
         public override void OnInitialize()
