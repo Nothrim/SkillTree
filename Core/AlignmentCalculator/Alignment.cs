@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SkillTree.Core
 {
-    class Alignment
+    public class Alignment
     {
-        private float vertical { get; }
-        private float horizontal { get; }
+        public float vertical { get; private set; }
+        public float horizontal { get; private set; }
 
         public Alignment(float horizontal, float vertical)
         {

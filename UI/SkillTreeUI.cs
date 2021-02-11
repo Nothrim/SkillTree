@@ -17,7 +17,6 @@ namespace SkillTree.UI
     class SkillTreeUI : UIState, UIItem
     {
         private static readonly Microsoft.Xna.Framework.Color BACKGROUD_PANEL_COLOR = new Microsoft.Xna.Framework.Color(73, 93, 171, 210);
-        private static readonly float MAX_SKILL_PANEL_SPACING = 0.1f;
         private SkillPanel skillPanel;
         private SkillTreeVisualiser visualiser;
         private bool visible = false;
@@ -35,41 +34,28 @@ namespace SkillTree.UI
         private void buildSkillTree()
         {
             var tree = visualiser.getSkillTree();
-            var allignBetweenLevels = Math.Min(1.0f / tree.Count, MAX_SKILL_PANEL_SPACING);
-
+            var levelsInformation = tree.Select(level => new LevelSize(level.Count)).ToList();
+            var alignments = new SkillAlignmentCalculator().calculateAlignment(levelsInformation);
 
             for (int level = 0; level < tree.Count; level++)
             {
-                if (tree[level].Count == 1)
+                for (int i = 0; i < tree[level].Count; i++)
                 {
-                    var skill = tree[level][0];
+
+                    var allignBetweenSkills = 1.0f / tree[level].Count;
+                    var skill = tree[level][i];
                     var skillButton = skill.Item2;
-                    setUpSkillButton(skillButton,  0.5f, allignBetweenLevels * level);
-                }
-                else
-                {
-                    createPanelForLevels(tree, allignBetweenLevels, level);
+                    var alignment = alignments[level][i];
+                    setUpSkillButton(skillButton, alignment);
                 }
             }
         }
 
-        private void createPanelForLevels(SkillTreeVisualisation tree, float allignBetweenLevels, int level)
+        private void setUpSkillButton(SkillButton skillButton, Alignment alignment)
         {
-            for (int i = 0; i < tree[level].Count; i++)
-            {
-
-                var allignBetweenSkills = 1.0f / tree[level].Count;
-                var skill = tree[level][i];
-                var skillButton = skill.Item2;
-                setUpSkillButton(skillButton, allignBetweenSkills * (i+1), allignBetweenLevels * level);
-            }
-        }
-
-        private void setUpSkillButton(SkillButton skillButton, float vAlign, float hAlign)
-        {
-            skillButton.VAlign = vAlign;
-            skillButton.HAlign = hAlign;
-            Main.NewText("Moving skill into: v: "+ vAlign + " h: "+hAlign);
+            skillButton.VAlign = alignment.vertical;
+            skillButton.HAlign = alignment.horizontal;
+            Main.NewText("Moving skill into: v: " + alignment.vertical + " h: " + alignment.horizontal);
             skillPanel.Append(skillButton);
         }
 
