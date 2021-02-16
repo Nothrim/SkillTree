@@ -14,7 +14,8 @@ namespace SkillTree.Player
 {
     public class SkillPlayer : ModPlayer
     {
-        private List<string> ownedSkills = new List<string> { SkillDefinitionLoader.Names.BLOCK, SkillDefinitionLoader.Names.LAYERED_ARMOR };
+        private int skillPoints = 10;
+
         private Way currentWay;
 
 
@@ -35,7 +36,15 @@ namespace SkillTree.Player
                     doHotkeyAction(name);
                 }
             });
+        }
 
+        public bool learnSkill(Skill skill)
+        {
+            if (skill.learned || skillPoints < skill.skillPointsCost) return false;
+            skillPoints -= skill.skillPointsCost;
+            skill.learn();
+
+            return true;
         }
 
         private void doHotkeyAction(string name)

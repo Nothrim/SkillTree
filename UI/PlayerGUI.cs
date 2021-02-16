@@ -31,7 +31,7 @@ namespace SkillTree.UI
             {
                 player.pickWay(way);
                 var skillRoot = new SkillTreeBuilder(this.skillDefinitionLoader).getSkillTree(way);
-                skillTreeUI.buildSkillTree(skillRoot, skill => { });
+                skillTreeUI.buildSkillTree(skillRoot, skill => { player.learnSkill(skill); });
                 Main.NewText("You chave choosen your way, you will be wielder of:");
                 Main.NewText(skillRoot.getSkill().displayName);
                 showSkillTreeUI(player);

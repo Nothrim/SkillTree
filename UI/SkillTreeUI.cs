@@ -55,7 +55,6 @@ namespace SkillTree.UI
         {
             skillButton.VAlign = alignment.vertical;
             skillButton.HAlign = alignment.horizontal;
-            Main.NewText("Moving skill into: v: " + alignment.vertical + " h: " + alignment.horizontal);
             skillPanel.Append(skillButton);
         }
 

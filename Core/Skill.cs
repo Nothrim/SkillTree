@@ -16,11 +16,13 @@ namespace SkillTree.Core
         public readonly int cost;
         public readonly int cooldown;
         public bool used = false;
+        public bool learned { get; private set; } = false;
         public readonly int chance;
         public readonly int level;
+        public readonly int skillPointsCost;
         public readonly List<Skill> requirements;
 
-        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0)
+        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0, int skillPointsCost = 1, bool learned = false)
         {
             var requirementsList = requirements ?? new List<Skill>();
             this.name = name;
@@ -32,7 +34,9 @@ namespace SkillTree.Core
             this.used = used;
             this.chance = chance;
             this.level = getLevel(level, requirements);
+            this.skillPointsCost = skillPointsCost;
             this.requirements = requirementsList;
+            this.learned = learned;
         }
 
         private int getLevel(int? level, List<Skill> parents)
@@ -54,6 +58,11 @@ namespace SkillTree.Core
         public static Skill blankSkill(string name, List<Skill> requirements = null)
         {
             return new Skill(name: name, iconPath: "SkillTree/Textures/UI/BlankFrame", displayName: "Blank skill", tooltip: "Does nothing but you can click it!", level: 1, requirements: requirements);
+        }
+
+        public void learn()
+        {
+            this.learned = true;
         }
     }
 }

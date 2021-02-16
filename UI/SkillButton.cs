@@ -16,66 +16,76 @@ namespace SkillTree.UI
     class SkillButton : UIImageButton
     {
 
-		private static readonly float SKILL_FRAME_SIZE = 50f;
-		private Skill skill;
-		private Action<Skill> onClick;
+        private static readonly float SKILL_FRAME_SIZE = 50f;
+        private readonly Skill skill;
+        private readonly Action<Skill> onClick;
+        private int unlearnedSkillFrameSizeModificator = -10;
 
-		public SkillButton(Skill skill, Action<Skill> onClick) :base(ModContent.GetTexture(skill.iconPath))
+        public SkillButton(Skill skill, Action<Skill> onClick) : base(ModContent.GetTexture(skill.iconPath))
         {
-			this.skill = skill;
-			this.onClick = onClick; ;
-		}
+            this.skill = skill;
+            this.onClick = onClick;
+            this.SetVisibility(0.5f, 0.35f);
+            this.Width.Set(SKILL_FRAME_SIZE + unlearnedSkillFrameSizeModificator, 0);
+            this.Height.Set(SKILL_FRAME_SIZE + unlearnedSkillFrameSizeModificator, 0);
+        }
 
 
-		public static SkillButton getSkillButton(Skill skill,Action<Skill> onClick)
+        public static SkillButton getSkillButton(Skill skill, Action<Skill> onClick)
         {
-			var skillButton = new SkillButton(skill, onClick);
-			skillButton.Width.Set(SKILL_FRAME_SIZE, 0);
-			skillButton.Height.Set(SKILL_FRAME_SIZE, 0);
-			skillButton.OnClick += skillButton.onSkillFrameClicked;
-			skillButton.OnMouseOver += skillButton.onMouseOver;
-			skillButton.OnMouseOut += skillButton.onMouseOut;
+            var skillButton = new SkillButton(skill, onClick);
 
-			return skillButton;
+            skillButton.OnClick += skillButton.onSkillFrameClicked;
+            skillButton.OnMouseOver += skillButton.onMouseOver;
+            skillButton.OnMouseOut += skillButton.onMouseOut;
+
+            return skillButton;
         }
 
         private void onSkillFrameClicked(UIMouseEvent evt, UIElement listeningElement)
         {
-			onClick.Invoke(skill);
+            onClick.Invoke(skill);
+            if (skill.learned && unlearnedSkillFrameSizeModificator != 0)
+            {
+                unlearnedSkillFrameSizeModificator = 0;
+                this.SetVisibility(1f, 1f);
+                this.Width.Set(SKILL_FRAME_SIZE, 0);
+                this.Height.Set(SKILL_FRAME_SIZE, 0);
+            }
         }
 
-		private void onMouseOver(UIMouseEvent evt, UIElement listeningElement)
+        private void onMouseOver(UIMouseEvent evt, UIElement listeningElement)
         {
-			this.Width.Set(SKILL_FRAME_SIZE + 10, 0);
-			this.Height.Set(SKILL_FRAME_SIZE + 10, 0);
-		}
+            this.Width.Set(SKILL_FRAME_SIZE + 10 + unlearnedSkillFrameSizeModificator, 0);
+            this.Height.Set(SKILL_FRAME_SIZE + 10 + unlearnedSkillFrameSizeModificator, 0);
+        }
 
-		private void onMouseOut(UIMouseEvent evt, UIElement listeningElement)
+        private void onMouseOut(UIMouseEvent evt, UIElement listeningElement)
         {
-			this.Width.Set(SKILL_FRAME_SIZE, 0);
-			this.Height.Set(SKILL_FRAME_SIZE, 0);
-		}
+            this.Width.Set(SKILL_FRAME_SIZE + unlearnedSkillFrameSizeModificator, 0);
+            this.Height.Set(SKILL_FRAME_SIZE + unlearnedSkillFrameSizeModificator, 0);
+        }
 
 
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime); // don't remove.
-			// Checking ContainsPoint and then setting mouseInterface to true is very common. This causes clicks on this UIElement to not cause the player to use current items. 
-			if (ContainsPoint(Main.MouseScreen))
-			{
-				Main.LocalPlayer.mouseInterface = true;
-			}
-			
-		}
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime); // don't remove.
+                                   // Checking ContainsPoint and then setting mouseInterface to true is very common. This causes clicks on this UIElement to not cause the player to use current items. 
+            if (ContainsPoint(Main.MouseScreen))
+            {
+                Main.LocalPlayer.mouseInterface = true;
+            }
+
+        }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             base.DrawSelf(spriteBatch);
-			if (IsMouseHovering)
-			{
-				Main.hoverItemName = skill.displayName + "\n" + skill.tooltip;
-			}
-		}
+            if (IsMouseHovering)
+            {
+                Main.hoverItemName = skill.displayName + "\n" + skill.tooltip;
+            }
+        }
 
     }
 }
