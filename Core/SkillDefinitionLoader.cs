@@ -29,9 +29,6 @@ namespace SkillTree.Core
             var might = loadMight();
             var layeredArmor = loadLayeredArmor(new List<Skill> { might });
             var block = loadBlock(new List<Skill> { layeredArmor });
-            var blank1 = loadBlank("blank1", new List<Skill> { block, layeredArmor });
-            var blank2 = loadBlank("blank2", new List<Skill> { blank1 });
-            var blank3 = loadBlank("blank3", new List<Skill> { blank2 });
             var magicElement = loadMagicElement();
             var marksmanship = loadMarksmanship();
         }
@@ -129,6 +126,40 @@ namespace SkillTree.Core
             , displayName: "Block"
             , iconPath: "SkillTree/Textures/Icons/Block"
             , tooltip: "Block incoming damage [10% chance]"
+            , level: 1
+            , requirements: requiredSkills
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+        private Skill loadTrollsBlood(List<Skill> requiredSkills)
+        {
+            string skillName = Names.BLOCK;
+            Skill skill = new Skill(
+             name: skillName
+            , displayName: "Trolls Blood"
+            , iconPath: "SkillTree/Textures/Icons/TrollsBlood"
+            , tooltip: "Provides hastened regeneration when in danger "
+            , level: 1
+            , cooldown: 60
+            , requirements: requiredSkills
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+
+        private Skill loadMirrorShield(List<Skill> requiredSkills)
+        {
+            string skillName = Names.BLOCK;
+            Skill skill = new Skill(
+             name: skillName
+            , displayName: "Trolls Blood"
+            , iconPath: "SkillTree/Textures/Icons/MirrorShield"
+            , tooltip: "Parry incoming hits/projectiles [5 sec cooldown]"
             , level: 1
             , requirements: requiredSkills
             );

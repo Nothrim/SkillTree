@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkillTree.Core.Model;
 
 namespace SkillTree.Core
 {
@@ -13,8 +14,8 @@ namespace SkillTree.Core
         public readonly string iconPath;
         public readonly string displayName;
         public readonly string tooltip;
-        public readonly int cost;
-        public readonly int cooldown;
+        public readonly Mana cost;
+        public readonly Second cooldown;
         public bool used = false;
         public bool learned { get; private set; } = false;
         public readonly int chance;
@@ -22,15 +23,15 @@ namespace SkillTree.Core
         public readonly int skillPointsCost;
         public readonly List<Skill> requirements;
 
-        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, int cost = 0, int cooldown = 0, int skillPointsCost = 1, bool learned = false)
+        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, Mana cost = null, Second cooldown = null, int skillPointsCost = 1, bool learned = false)
         {
             var requirementsList = requirements ?? new List<Skill>();
             this.name = name;
             this.iconPath = iconPath;
             this.displayName = displayName;
             this.tooltip = tooltip;
-            this.cost = cost;
-            this.cooldown = cooldown;
+            this.cost = cost ?? new Mana(0);
+            this.cooldown = cooldown ?? new Second(0);
             this.used = used;
             this.chance = chance;
             this.level = getLevel(level, requirements);
