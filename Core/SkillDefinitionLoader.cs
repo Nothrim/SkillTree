@@ -14,6 +14,11 @@ namespace SkillTree.Core
         {
             public static readonly string LAYERED_ARMOR = "layeredArmor";
             public static readonly string BLOCK = "block";
+            public static readonly string TROLLS_BLOOD = "trollsBlood";
+            public static readonly string MIRROR_SHIELD = "mirrorShield";
+            public static readonly string THROW = "throw";
+            public static readonly string SHOCKWAVE = "shockwave";
+            public static readonly string ENDER_LEGACY = "enderLegacy";
         }
 
         public static class Ways
@@ -29,6 +34,11 @@ namespace SkillTree.Core
             var might = loadMight();
             var layeredArmor = loadLayeredArmor(new List<Skill> { might });
             var block = loadBlock(new List<Skill> { layeredArmor });
+            var trollsBlood = loadTrollsBlood(new List<Skill> { block });
+            var mirrorShield = loadMirrorShield(new List<Skill> { trollsBlood });
+            var throwSkill = loadThrow(new List<Skill> { mirrorShield });
+            var shockwave = loadShockwave(new List<Skill> { throwSkill });
+            var enderLegacy = loadEnderLegacy(new List<Skill> { shockwave });
             var magicElement = loadMagicElement();
             var marksmanship = loadMarksmanship();
         }
@@ -126,7 +136,7 @@ namespace SkillTree.Core
             , displayName: "Block"
             , iconPath: "SkillTree/Textures/Icons/Block"
             , tooltip: "Block incoming damage [10% chance]"
-            , level: 1
+            , level: 2
             , requirements: requiredSkills
             );
             skillDefinitions[skillName] = skill;
@@ -136,15 +146,17 @@ namespace SkillTree.Core
 
         private Skill loadTrollsBlood(List<Skill> requiredSkills)
         {
-            string skillName = Names.BLOCK;
+            string skillName = Names.TROLLS_BLOOD;
             Skill skill = new Skill(
              name: skillName
             , displayName: "Trolls Blood"
             , iconPath: "SkillTree/Textures/Icons/TrollsBlood"
             , tooltip: "Provides hastened regeneration when in danger "
-            , level: 1
-            , cooldown: 60
+            , level: 3
+            , cooldown: new Second(60)
+            , cost: new Model.Mana(50)
             , requirements: requiredSkills
+            ,useable: true
             );
             skillDefinitions[skillName] = skill;
 
@@ -154,19 +166,82 @@ namespace SkillTree.Core
 
         private Skill loadMirrorShield(List<Skill> requiredSkills)
         {
-            string skillName = Names.BLOCK;
+            string skillName = Names.MIRROR_SHIELD;
             Skill skill = new Skill(
              name: skillName
             , displayName: "Trolls Blood"
             , iconPath: "SkillTree/Textures/Icons/MirrorShield"
-            , tooltip: "Parry incoming hits/projectiles [5 sec cooldown]"
-            , level: 1
+            , tooltip: "Parry incoming hits/projectiles"
+            , cooldown: new Second(5)
+            , level: 4
             , requirements: requiredSkills
+            , useable: true
             );
             skillDefinitions[skillName] = skill;
 
             return skill;
         }
+
+
+
+        private Skill loadThrow(List<Skill> requiredSkills)
+        {
+            string skillName = Names.THROW;
+            Skill skill = new Skill(
+             name: skillName
+            , displayName: "Trolls Blood"
+            , iconPath: "SkillTree/Textures/Icons/Throw"
+            , tooltip: "Throw closest enemy to mouse direction"
+            , cooldown: new Second(5)
+            , level: 5
+            , requirements: requiredSkills
+            , useable: true
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+        private Skill loadShockwave(List<Skill> requiredSkills)
+        {
+            string skillName = Names.SHOCKWAVE;
+            Skill skill = new Skill(
+             name: skillName
+            , displayName: "Trolls Blood"
+            , iconPath: "SkillTree/Textures/Icons/Shockwave"
+            , tooltip: "Shoot 2 projectiles in both directions, which deal damage equal to your current health"
+            , cooldown: new Second(5)
+            , cost: new Model.Mana(40)
+            , level: 6
+            , requirements: requiredSkills
+            , useable: true
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+        private Skill loadEnderLegacy(List<Skill> requiredSkills)
+        {
+            string skillName = Names.ENDER_LEGACY;
+            Skill skill = new Skill(
+             name: skillName
+            , displayName: "Trolls Blood"
+            , iconPath: "SkillTree/Textures/Icons/EnderLegacy"
+            , tooltip: "Recived damage heals you"
+            , cooldown: new Second(120)
+            , cost: new Model.Mana(100)
+            , level: 7
+            , requirements: requiredSkills
+            , useable: true
+            );
+            skillDefinitions[skillName] = skill;
+
+            return skill;
+        }
+
+
+
 
         private Skill loadBlank(string name, List<Skill> requiredSkils = null)
         {

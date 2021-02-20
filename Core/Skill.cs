@@ -17,13 +17,14 @@ namespace SkillTree.Core
         public readonly Mana cost;
         public readonly Second cooldown;
         public bool used = false;
+        public bool useable = false;
         public bool learned { get; private set; } = false;
         public readonly int chance;
         public readonly int level;
         public readonly int skillPointsCost;
         public readonly List<Skill> requirements;
 
-        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, Mana cost = null, Second cooldown = null, int skillPointsCost = 1, bool learned = false)
+        public Skill(string name, string iconPath, string displayName, string tooltip, int? level = null, bool used = false, List<Skill> requirements = null, int chance = 0, Mana cost = null, Second cooldown = null, int skillPointsCost = 1, bool learned = false, bool useable = false)
         {
             var requirementsList = requirements ?? new List<Skill>();
             this.name = name;
@@ -38,6 +39,7 @@ namespace SkillTree.Core
             this.skillPointsCost = skillPointsCost;
             this.requirements = requirementsList;
             this.learned = learned;
+            this.useable = useable;
         }
 
         private int getLevel(int? level, List<Skill> parents)
