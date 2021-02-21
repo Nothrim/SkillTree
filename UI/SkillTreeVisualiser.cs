@@ -15,6 +15,7 @@ namespace SkillTree.UI
         private List<List<SkillNode>> skillsByLevel = new List<List<SkillNode>>();
         private SkillTreeVisualisation nodesWithButtons = new SkillTreeVisualisation();
         private Action<Skill> onSkillPicked;
+        private Dictionary<SkillNode, SkillButton> skillNodeToButton = new Dictionary<SkillNode, SkillButton>();
 
         public SkillTreeVisualiser(SkillNode root = null, Action<Skill> onSkillPicked=null)
         {
@@ -27,6 +28,11 @@ namespace SkillTree.UI
         public SkillTreeVisualisation getSkillTree()
         {
             return nodesWithButtons;
+        }
+
+        public SkillButton getButton(SkillNode node)
+        {
+            return skillNodeToButton[node];
         }
 
         public void build(SkillNode root = null, Action<Skill> onSkillPicked = null)
@@ -76,6 +82,7 @@ namespace SkillTree.UI
                     .Select(skillNode =>
                     {
                         var button = SkillButton.getSkillButton(skillNode.getSkill(), skill => { onSkillPicked.Invoke(skill); });
+                        skillNodeToButton.Add(skillNode, button);
                         return new Tuple<SkillNode, SkillButton>(skillNode, button);
                     })
                     .ToList();

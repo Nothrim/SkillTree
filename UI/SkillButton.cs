@@ -42,6 +42,11 @@ namespace SkillTree.UI
             return skillButton;
         }
 
+        public Vector2 getPosition()
+        {
+            return GetDimensions().Position();
+        }
+
         private void onSkillFrameClicked(UIMouseEvent evt, UIElement listeningElement)
         {
             onClick.Invoke(skill);

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SkillTree.Core;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace SkillTree.UI
         private SkillPanel skillPanel;
         private SkillTreeVisualiser visualiser;
         private bool visible = false;
+        private HashSet<Line> linesBetweenSkills = new HashSet<Line>();
 
         public void buildSkillTree(SkillNode way, Action<Skill> onSkillPicked)
         {
@@ -46,16 +48,31 @@ namespace SkillTree.UI
                     var skill = tree[level][i];
                     var skillButton = skill.Item2;
                     var alignment = alignments[level][i];
-                    setUpSkillButton(skillButton, alignment);
+                    var position = setUpSkillButton(skillButton, alignment);
+                }
+            }
+            for (int level = 0; level < tree.Count; level++)
+            {
+                for (int i = 0; i < tree[level].Count; i++)
+                {
+                    var skill = tree[level][i];
+                    var skillButton = skill.Item2;
+                    skill.Item1.getChildren().ForEach(child =>
+                    {
+                        var childButtonPosition = visualiser.getButton(child).getPosition();
+                        linesBetweenSkills.Add(new Line(skillButton.getPosition(), childButtonPosition));
+                    });
+                   
                 }
             }
         }
 
-        private void setUpSkillButton(SkillButton skillButton, Alignment alignment)
+        private Vector2 setUpSkillButton(SkillButton skillButton, Alignment alignment)
         {
             skillButton.VAlign = alignment.vertical;
             skillButton.HAlign = alignment.horizontal;
             skillPanel.Append(skillButton);
+            return skillButton.GetDimensions().Position();
         }
 
         public override void OnInitialize()
@@ -91,8 +108,14 @@ namespace SkillTree.UI
             return visible;
         }
 
-
-
+        protected override void DrawChildren(SpriteBatch spriteBatch)
+        {
+            base.DrawChildren(spriteBatch);
+            foreach(Line line in linesBetweenSkills)
+            {
+                line.DrawSelf(spriteBatch);
+            }
+        }
     }
 
 }
