@@ -14,7 +14,7 @@ namespace SkillTree.UI
         public readonly Vector2 begin;
         public readonly Vector2 end;
         private static readonly Texture2D BASIC_LINE = ModContent.GetTexture("SkillTree/Textures/UI/1x1");
-        private static readonly Color BASIC_COLOR = Color.White;
+        private static readonly Color BASIC_COLOR = new Color(0, 255, 255, 100);
         private static readonly int DEFAULT_LINE_THICCNESS = 5;
 
         public Line(Vector2 begin,Vector2 end)
@@ -38,8 +38,8 @@ namespace SkillTree.UI
             {
                 angle = MathHelper.TwoPi - angle;
             }
-
-            sb.Draw(BASIC_LINE, line, null, BASIC_COLOR, angle, Vector2.Zero, SpriteEffects.None, 0);
+       
+            sb.Draw(BASIC_LINE, line, null, BASIC_COLOR, angle, Vector2.Zero, SpriteEffects.None, 1f);
         }
     }
 }

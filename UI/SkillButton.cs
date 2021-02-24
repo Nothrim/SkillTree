@@ -16,7 +16,7 @@ namespace SkillTree.UI
     class SkillButton : UIImageButton
     {
 
-        private static readonly float SKILL_FRAME_SIZE = 50f;
+        public static readonly float SKILL_FRAME_SIZE = 50f;
         private readonly Skill skill;
         private readonly Action<Skill> onClick;
         private int unlearnedSkillFrameSizeModificator = -10;

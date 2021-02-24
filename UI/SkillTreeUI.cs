@@ -59,8 +59,11 @@ namespace SkillTree.UI
                     var skillButton = skill.Item2;
                     skill.Item1.getChildren().ForEach(child =>
                     {
-                        var childButtonPosition = visualiser.getButton(child).getPosition();
-                        linesBetweenSkills.Add(new Line(skillButton.getPosition(), childButtonPosition));
+                        var childButton = visualiser.getButton(child);
+                        var childButtonPosition = childButton.getPosition();
+                        var parentJoinPoint = new Vector2(skillButton.getPosition().X + skillButton.Width.Pixels/2, skillButton.getPosition().Y + skillButton.Height.Pixels/2);
+                        var childJoinPoint = new Vector2(childButtonPosition.X + childButton.Width.Pixels/2, childButtonPosition.Y + skillButton.Height.Pixels / 2);
+                        linesBetweenSkills.Add(new Line(parentJoinPoint, childJoinPoint));
                     });
                    
                 }
